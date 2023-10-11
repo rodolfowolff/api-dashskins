@@ -1,0 +1,7 @@
+@baseUrl = http://localhost:3000/api
+
+###
+
+# @name fetch_recent_questions
+GET {{baseUrl}}/
+Content-Type: application/json
