@@ -1,4 +1,4 @@
-import { Transform, plainToInstance } from 'class-transformer';
+import { plainToInstance, Transform } from 'class-transformer';
 import { IsNotEmpty, IsString, Length, validateSync } from 'class-validator';
 
 class EnvironmentVariables {

@@ -1,8 +1,8 @@
 import {
-  Model,
-  FilterQuery,
-  QueryOptions,
   Document,
+  FilterQuery,
+  Model,
+  QueryOptions,
   UpdateQuery,
 } from 'mongoose';
 
