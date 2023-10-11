@@ -1,23 +1,72 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserRepository } from './repository/user.repository';
+import { ApiResponse } from '@/common/response';
 
 @Injectable()
 export class UsersService {
   constructor(private readonly userRepository: UserRepository) { }
-  async create(body: CreateUserDto) {
+  async create(body: CreateUserDto): Promise<ApiResponse> {
     await this.isEmailUnique(body.email);
-    return body;
+
+    try {
+      const createdUser = await this.userRepository.create(body);
+
+      if (createdUser) {
+        throw new ApiResponse(
+          {
+            success: true,
+            message: 'Usuário criado com sucesso.',
+            data: createdUser,
+          },
+          HttpStatus.OK,
+        );
+      }
+
+      throw new ApiResponse(
+        {
+          success: false,
+          message: 'Erro ao criar usuário.',
+        },
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    } catch (error) {
+      if (error) throw error;
+      throw new ApiResponse(
+        {
+          success: false,
+          message: 'Erro ao criar usuário.',
+        },
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 
   /** Metodos privados */
   private async isEmailUnique(email: string) {
-    const emailExists = await this.userRepository.findByCondition(
-      { email },
-      { email: 1 }, // retorna somente email
-    );
-    if (emailExists) {
-      throw new BadRequestException('Email em uso.');
+    try {
+      const emailExists = await this.userRepository.findByCondition(
+        { email },
+        { email: 1 }, // retorna somente email
+      );
+      if (emailExists) {
+        throw new ApiResponse(
+          {
+            success: false,
+            message: 'Email em uso.',
+          },
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+    } catch (error) {
+      if (error) throw error;
+      throw new ApiResponse(
+        {
+          success: false,
+          message: 'Erro ao verificar email.',
+        },
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 }
