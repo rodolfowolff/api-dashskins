@@ -1,7 +1,17 @@
 @baseUrl = http://localhost:3333/api
 
-###
-
-# @name fetch_recent_questions
-GET {{baseUrl}}/
+# @name Ping
+GET {{baseUrl}}
 Content-Type: application/json
+
+###
+# @name Ping
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{
+  "username": "John",
+  "email": "john@me.com",
+  "age": 20,
+  "avatar": "https://..."
+}
