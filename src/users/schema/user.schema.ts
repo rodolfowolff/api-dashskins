@@ -1,13 +1,11 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-export type UserDocument = User & Document;
-
 @Schema()
-export class User {
+export class User extends Document {
   @Prop({
-    minlength: 6,
-    maxlength: 255,
+    minlength: 3,
+    maxlength: 120,
     required: [true, 'NAME_IS_BLANK'],
   })
   username: string;
