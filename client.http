@@ -10,8 +10,8 @@ POST {{baseUrl}}/users
 Content-Type: application/json
 
 {
-  "username": "John",
-  "email": "john@me.com",
-  "age": 20,
-  "avatar": "https://..."
+  "username": "xxx da",
+  "email": "hrxhr@me.com",
+  "age": 18,
+  "avatar": "https://i.pravatar.cc/150?img=50"
 }

@@ -42,6 +42,30 @@ export class UsersService {
     }
   }
 
+  async findAll(): Promise<ApiResponse> {
+    try {
+      const users = await this.userRepository.findAll();
+
+      throw new ApiResponse(
+        {
+          success: true,
+          message: 'Usuários encontrados.',
+          data: users,
+        },
+        HttpStatus.OK,
+      );
+    } catch (error) {
+      if (error) throw error;
+      throw new ApiResponse(
+        {
+          success: false,
+          message: 'Erro ao encontrar usuários.',
+        },
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
   /** Metodos privados */
   private async isEmailUnique(email: string) {
     try {
