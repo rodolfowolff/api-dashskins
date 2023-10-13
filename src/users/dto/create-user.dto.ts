@@ -3,6 +3,7 @@ import {
   IsNotEmpty,
   IsNumber,
   IsString,
+  IsUrl,
   Length,
   Max,
   Min,
@@ -42,5 +43,6 @@ export class CreateUserDto {
   @Length(1, 255, {
     message: 'Avatar deve ter entre 1 e 255 caracteres.',
   })
+  @IsUrl(undefined, { message: 'Avatar deve ser um URL.' })
   readonly avatar: string;
 }
