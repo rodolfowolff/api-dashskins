@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UsersService } from './users.service';
-import { UsersRepository } from './repository/users.repository';
 import { BadRequestException } from '@nestjs/common';
-import { User } from './schema/user.schema';
+import { UsersService } from '../users.service';
+import { UsersRepository } from '../repository/users.repository';
+import { User } from '../schema/user.schema';
 
 const mockUser = (
   username = 'John Doe',
