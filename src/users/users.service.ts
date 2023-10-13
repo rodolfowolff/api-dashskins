@@ -1,68 +1,52 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UserRepository } from './repository/user.repository';
-import { ApiResponse } from '@/common/response';
+import { UsersRepository } from './repository/users.repository';
+import { User } from './schema/user.schema';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly userRepository: UserRepository) { }
-  async create(body: CreateUserDto): Promise<ApiResponse> {
+  constructor(private readonly userRepository: UsersRepository) { }
+  async create(body: CreateUserDto): Promise<User> {
     await this.isEmailUnique(body.email);
 
     try {
       const createdUser = await this.userRepository.create(body);
 
       if (createdUser) {
-        throw new ApiResponse(
-          {
-            success: true,
-            message: 'Usuário criado com sucesso.',
-            data: createdUser,
-          },
-          HttpStatus.OK,
-        );
+        return createdUser;
       }
 
-      throw new ApiResponse(
-        {
-          success: false,
-          message: 'Erro ao criar usuário.',
-        },
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+      throw new InternalServerErrorException({
+        message: 'Erro ao criar usuário.',
+      });
     } catch (error) {
       if (error) throw error;
-      throw new ApiResponse(
-        {
-          success: false,
-          message: 'Erro ao criar usuário.',
-        },
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+      throw new InternalServerErrorException({
+        message: 'Aconteceu algum erro ao criar usuário.',
+      });
     }
   }
 
-  async findAll(): Promise<ApiResponse> {
+  async findAll(): Promise<User[]> {
     try {
       const users = await this.userRepository.findAll();
 
-      throw new ApiResponse(
-        {
-          success: true,
-          message: 'Usuários encontrados.',
-          data: users,
-        },
-        HttpStatus.OK,
-      );
+      if (!users) {
+        throw new BadRequestException({
+          message: 'Nenhum usuário encontrado.',
+        });
+      }
+
+      return users;
     } catch (error) {
       if (error) throw error;
-      throw new ApiResponse(
-        {
-          success: false,
-          message: 'Erro ao encontrar usuários.',
-        },
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+      throw new InternalServerErrorException({
+        message: 'Erro ao buscar usuários.',
+      });
     }
   }
 
@@ -74,23 +58,17 @@ export class UsersService {
         { email: 1 }, // retorna somente email
       );
       if (emailExists) {
-        throw new ApiResponse(
-          {
-            success: false,
-            message: 'Email em uso.',
-          },
-          HttpStatus.BAD_REQUEST,
-        );
+        throw new BadRequestException({
+          message: 'Email já existe.',
+        });
       }
+
+      return emailExists;
     } catch (error) {
       if (error) throw error;
-      throw new ApiResponse(
-        {
-          success: false,
-          message: 'Erro ao verificar email.',
-        },
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+      throw new InternalServerErrorException({
+        message: 'Aconteceu algum erro ao verificar se existe o email.',
+      });
     }
   }
 }
