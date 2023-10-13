@@ -37,6 +37,7 @@ describe('Users Service', () => {
             constructor: vitest.fn().mockResolvedValue(mockUser()),
             findAll: vitest.fn(),
             create: vitest.fn(),
+            findByCondition: vitest.fn(),
           },
         },
       ],
@@ -82,28 +83,24 @@ describe('Users Service', () => {
   });
 
   it('Deve criar um novo usuário', async () => {
-    vitest.spyOn(usersService, 'create').mockImplementationOnce(
-      () =>
-        Promise.resolve({
-          username: 'Oliver',
-          email: 'Oliver@gmail.com',
-          age: 1,
-          avatar: 'https://example.com/avatar.jpg',
-        }) as any,
-    );
-    const newUser = await usersService.create({
-      username: 'Oliver',
-      email: 'Oliver',
-      age: 1,
-      avatar: 'Tabby',
-    });
-    expect(newUser).toEqual(
-      mockUser(
-        'Oliver',
-        'Oliver@gmail.com',
-        1,
-        'https://example.com/avatar.jpg',
-      ),
-    );
+    vitest
+      .spyOn(usersService, 'create')
+      .mockImplementationOnce(() => Promise.resolve(mockUser()) as any);
+    const newUser = await usersService.create(mockUser() as any);
+    expect(newUser).toEqual(mockUser());
+  });
+
+  it('Deve rejeitar uma exceção', async () => {
+    vitest
+      .spyOn(usersService, 'create')
+      .mockRejectedValue(
+        new BadRequestException({ message: 'Email já existe.' }),
+      );
+
+    try {
+      await usersService.create(mockUser() as any);
+    } catch (error) {
+      expect(error).toBeInstanceOf(Error);
+    }
   });
 });
