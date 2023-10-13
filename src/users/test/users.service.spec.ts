@@ -2,25 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { BadRequestException } from '@nestjs/common';
 import { UsersService } from '../users.service';
 import { UsersRepository } from '../repository/users.repository';
-import { User } from '../schema/user.schema';
-
-const mockUser = (
-  username = 'John Doe',
-  email = 'john@doe',
-  age = 4,
-  avatar = 'https://example.com/avatar.jpg',
-): Partial<User> => ({
-  username,
-  email,
-  age,
-  avatar,
-});
-
-const usersArray = [
-  mockUser(),
-  mockUser('Vitani', 'a@b.com', 2, 'https://example.com/vitani.jpg'),
-  mockUser('Simba', 't@b.com', 14, 'https://example.com/simba.jpg'),
-];
+import { mockUser, usersArray } from './mock-user';
 
 describe('Users Service', () => {
   let usersService: UsersService;
