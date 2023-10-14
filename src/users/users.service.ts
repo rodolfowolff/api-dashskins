@@ -83,6 +83,25 @@ export class UsersService {
     }
   }
 
+  async delete(id: string): Promise<string> {
+    try {
+      const deletedUser = await this.userRepository.findByIdAndDelete(id);
+
+      if (deletedUser) {
+        return 'Usuário deletado com sucesso.';
+      }
+
+      throw new InternalServerErrorException({
+        message: 'Erro ao deletar usuário.',
+      });
+    } catch (error) {
+      if (error) throw error;
+      throw new InternalServerErrorException({
+        message: 'Aconteceu algum erro ao deletar usuário.',
+      });
+    }
+  }
+
   /** Metodos privados */
   private async isEmailUnique(email: string) {
     try {

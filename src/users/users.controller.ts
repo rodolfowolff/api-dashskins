@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { MongoIDParamDTO } from '@/common/mongoIdParam';
@@ -21,5 +29,10 @@ export class UsersController {
   @Put(':id')
   update(@Param() param: MongoIDParamDTO, @Body() body: EditUserDto) {
     return this.usersService.update(param.id, body);
+  }
+
+  @Delete(':id')
+  delete(@Param() param: MongoIDParamDTO) {
+    return this.usersService.delete(param.id);
   }
 }

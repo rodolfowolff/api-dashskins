@@ -32,3 +32,8 @@ Content-Type: application/json
   "age": 18,
   "avatar": "https://i.pravatar.cc/150?img=50"
 }
+
+###
+# @name DeleteUser
+DELETE {{baseUrl}}/users/652625545b2116f704967299
+Content-Type: application/json

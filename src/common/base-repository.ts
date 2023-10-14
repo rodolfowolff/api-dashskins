@@ -28,4 +28,8 @@ export class BaseRepository<T extends Document> {
   async findByIdAndUpdate(id, update) {
     return this.model.findByIdAndUpdate(id, update, { new: true });
   }
+
+  async findByIdAndDelete(id) {
+    return this.model.findByIdAndDelete(id);
+  }
 }
