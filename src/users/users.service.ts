@@ -102,6 +102,26 @@ export class UsersService {
     }
   }
 
+  async findByEmail(email: string): Promise<User | null> {
+    try {
+      const user = await this.userRepository.findByCondition(
+        { email: email.toLocaleLowerCase() },
+        { email: 1 }, // retorna somente email
+      );
+
+      if (!user) {
+        return null;
+      }
+
+      return user;
+    } catch (error) {
+      if (error) throw error;
+      throw new InternalServerErrorException({
+        message: 'Aconteceu algum erro ao buscar usuário.',
+      });
+    }
+  }
+
   /** Metodos privados */
   private async isEmailUnique(email: string) {
     try {

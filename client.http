@@ -8,6 +8,7 @@ Content-Type: application/json
 # @name CreateUser
 POST {{baseUrl}}/users
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTJhMzBhYzYwNzI1MzQ3NTcyOGVlMDkiLCJpYXQiOjE2OTcyNjgwMTMsImV4cCI6MTY5NzM1NDQxM30.oOoBwpIGWrjWptBAjXVQqMACbJQ7kWMjMFXIJSTlgmw
 
 {
   "username": "xxx da",
@@ -20,11 +21,13 @@ Content-Type: application/json
 # @name GetUsers
 GET {{baseUrl}}/users
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTJhMzBhYzYwNzI1MzQ3NTcyOGVlMDkiLCJpYXQiOjE2OTcyNjgwMTMsImV4cCI6MTY5NzM1NDQxM30.oOoBwpIGWrjWptBAjXVQqMACbJQ7kWMjMFXIJSTlgmw
 
 ###
 # @name UpdateUser
 PUT {{baseUrl}}/users/652625545b2116f704967299
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTJhMzBhYzYwNzI1MzQ3NTcyOGVlMDkiLCJpYXQiOjE2OTcyNjgwMTMsImV4cCI6MTY5NzM1NDQxM30.oOoBwpIGWrjWptBAjXVQqMACbJQ7kWMjMFXIJSTlgmw
 
 {
   "username": "update username",
@@ -37,3 +40,15 @@ Content-Type: application/json
 # @name DeleteUser
 DELETE {{baseUrl}}/users/652625545b2116f704967299
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTJhMzBhYzYwNzI1MzQ3NTcyOGVlMDkiLCJpYXQiOjE2OTcyNjgwMTMsImV4cCI6MTY5NzM1NDQxM30.oOoBwpIGWrjWptBAjXVQqMACbJQ7kWMjMFXIJSTlgmw
+
+###
+# @name Login
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@admin.com",
+  "password": "admin123"
+}
+
