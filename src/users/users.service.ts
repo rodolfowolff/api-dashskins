@@ -6,6 +6,7 @@ import {
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersRepository } from './repository/users.repository';
 import { User } from './schema/user.schema';
+import { EditUserDto } from './dto/edit-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -46,6 +47,40 @@ export class UsersService {
       if (error) throw error;
       throw new InternalServerErrorException({
         message: 'Erro ao buscar usuários.',
+      });
+    }
+  }
+
+  async update(id: string, body: EditUserDto): Promise<User> {
+    try {
+      if (body.email) {
+        const findUserEmail = await this.userRepository.findByCondition(
+          {
+            id: { $ne: id },
+          },
+          { email: 1 }, // retorna somente email
+        );
+
+        // Verifica se o email recebido e diferente do usuario no banco
+        if (findUserEmail?.email !== body.email.toLocaleLowerCase()) {
+          // Verifica se o email já existe
+          await this.isEmailUnique(body.email);
+        }
+      }
+
+      const updatedUser = await this.userRepository.findByIdAndUpdate(id, body);
+
+      if (updatedUser) {
+        return updatedUser;
+      }
+
+      throw new InternalServerErrorException({
+        message: 'Erro ao atualizar usuário.',
+      });
+    } catch (error) {
+      if (error) throw error;
+      throw new InternalServerErrorException({
+        message: 'Aconteceu algum erro ao atualizar usuário.',
       });
     }
   }

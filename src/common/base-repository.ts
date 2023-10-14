@@ -24,4 +24,8 @@ export class BaseRepository<T extends Document> {
   async findAll(select?: string, sort?: { [key: string]: any }): Promise<T[]> {
     return this.model.find().select(select).sort(sort).lean();
   }
+
+  async findByIdAndUpdate(id, update) {
+    return this.model.findByIdAndUpdate(id, update, { new: true });
+  }
 }

@@ -5,13 +5,30 @@ GET {{baseUrl}}
 Content-Type: application/json
 
 ###
-# @name Ping
+# @name CreateUser
 POST {{baseUrl}}/users
 Content-Type: application/json
 
 {
   "username": "xxx da",
   "email": "hrxhr@me.com",
+  "age": 18,
+  "avatar": "https://i.pravatar.cc/150?img=50"
+}
+
+###
+# @name GetUsers
+GET {{baseUrl}}/users
+Content-Type: application/json
+
+###
+# @name UpdateUser
+PUT {{baseUrl}}/users/652625545b2116f704967299
+Content-Type: application/json
+
+{
+  "username": "update username",
+  "email": "updates@me.com",
   "age": 18,
   "avatar": "https://i.pravatar.cc/150?img=50"
 }

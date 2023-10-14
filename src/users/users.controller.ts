@@ -1,6 +1,8 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
+import { MongoIDParamDTO } from '@/common/mongoIdParam';
+import { EditUserDto } from './dto/edit-user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -14,5 +16,10 @@ export class UsersController {
   @Get()
   findAll() {
     return this.usersService.findAll();
+  }
+
+  @Put(':id')
+  update(@Param() param: MongoIDParamDTO, @Body() body: EditUserDto) {
+    return this.usersService.update(param.id, body);
   }
 }
