@@ -55,15 +55,13 @@ export class UsersService {
     try {
       if (body.email) {
         const findUserEmail = await this.userRepository.findByCondition(
-          {
-            id: { $ne: id },
-          },
-          { email: 1 }, // retorna somente email
+          { email: body.email.toLocaleLowerCase() },
+          { id: 1 }, // retorna somente email
         );
 
-        // Verifica se o email recebido e diferente do usuario no banco
-        if (findUserEmail?.email !== body.email.toLocaleLowerCase()) {
-          // Verifica se o email já existe
+        // Verifica se o id do usuario e diferente do usuario no banco
+        if (findUserEmail?.id.toString() !== id) {
+          // Verifica se o email ja existe
           await this.isEmailUnique(body.email);
         }
       }
