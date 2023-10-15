@@ -13,31 +13,33 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { MongoIDParamDTO } from '@/common/mongoIdParam';
 import { EditUserDto } from './dto/edit-user.dto';
 import { AuthGuard } from '@/auth/guard/auth.guard';
+import { seconds, Throttle, ThrottlerGuard } from '@nestjs/throttler';
 
 @Controller('users')
+@UseGuards(AuthGuard, ThrottlerGuard)
 export class UsersController {
   constructor(private readonly usersService: UsersService) { }
 
-  @UseGuards(AuthGuard)
   @Post()
+  @Throttle({ short: { limit: 3, ttl: seconds(1) } })
   create(@Body() body: CreateUserDto) {
     return this.usersService.create(body);
   }
 
-  @UseGuards(AuthGuard)
   @Get()
+  @Throttle({ medium: { limit: 20, ttl: seconds(10) } })
   findAll() {
     return this.usersService.findAll();
   }
 
-  @UseGuards(AuthGuard)
   @Put(':id')
+  @Throttle({ short: { limit: 3, ttl: seconds(1) } })
   update(@Param() param: MongoIDParamDTO, @Body() body: EditUserDto) {
     return this.usersService.update(param.id, body);
   }
 
-  @UseGuards(AuthGuard)
   @Delete(':id')
+  @Throttle({ short: { limit: 3, ttl: seconds(1) } })
   delete(@Param() param: MongoIDParamDTO) {
     return this.usersService.delete(param.id);
   }
