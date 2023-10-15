@@ -18,6 +18,14 @@ class EnvironmentVariables {
     message: 'JWT_SECRET deve ter entre 2 e 40 caracteres.',
   })
   JWT_SECRET: string;
+
+  /** */
+  @IsNotEmpty({ message: 'FRONTEND_URL é obrigatório.' })
+  @IsString({ each: true, message: 'FRONTEND_URL deve ser um texto.' })
+  @Length(10, 150, {
+    message: 'FRONTEND_URL deve ter entre 10 e 150 caracteres.',
+  })
+  FRONTEND_URL: string;
 }
 
 export function validate(config: Record<string, unknown>) {
