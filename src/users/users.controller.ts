@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { MongoIDParamDTO } from '@/common/mongoIdParam';
+import { MongoIDParamDTO } from '../common';
 import { EditUserDto } from './dto/edit-user.dto';
 import { AuthGuard } from '@/auth/guard/auth.guard';
 import { seconds, Throttle, ThrottlerGuard } from '@nestjs/throttler';
@@ -35,14 +35,17 @@ export class UsersController {
   @Put(':id')
   @UseGuards(AuthGuard)
   @Throttle({ short: { limit: 3, ttl: seconds(1) } })
-  update(@Param() param: MongoIDParamDTO, @Body() body: EditUserDto) {
+  update(
+    @Param() param: MongoIDParamDTO.MongoIDParamDTO,
+    @Body() body: EditUserDto,
+  ) {
     return this.usersService.update(param.id, body);
   }
 
   @Delete(':id')
   @UseGuards(AuthGuard)
   @Throttle({ short: { limit: 3, ttl: seconds(1) } })
-  delete(@Param() param: MongoIDParamDTO) {
+  delete(@Param() param: MongoIDParamDTO.MongoIDParamDTO) {
     return this.usersService.delete(param.id);
   }
 }
