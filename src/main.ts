@@ -8,11 +8,10 @@ async function bootstrap() {
   const envConfig = app.get(ConfigService);
 
   app.enableCors({
-    // origin: [envConfig.get<string>('base_url.frontend')],
-    origin: '*',
+    origin: '*', // [envConfig.get<string>('base_url.frontend')],
     credentials: true,
   });
-  app.enableCors();
+
   app.useGlobalPipes(new ValidationPipe());
 
   // const globalPrefix = 'api';
