@@ -10,7 +10,7 @@ async function bootstrap() {
   // app.enableCors({
   //   origin: [envConfig.get<string>('base_url.frontend')],
   //   credentials: true,
-  // });
+  // })
   app.useGlobalPipes(new ValidationPipe());
 
   const globalPrefix = 'api';
