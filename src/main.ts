@@ -8,6 +8,7 @@ async function bootstrap() {
   const envConfig = app.get(ConfigService);
 
   app.enableCors({
+    allowedHeaders: '*',
     origin: '*', // [envConfig.get<string>('base_url.frontend')],
     credentials: true,
   });
