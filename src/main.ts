@@ -10,6 +10,7 @@ async function bootstrap() {
   app.enableCors({
     allowedHeaders: '*',
     origin: '*', // [envConfig.get<string>('base_url.frontend')],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
   });
 
