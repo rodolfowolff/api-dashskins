@@ -7,24 +7,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const envConfig = app.get(ConfigService);
 
-  const whitelist = [
-    'https://dashskin.vercel.app',
-    'https://www.dashskin.vercel.app',
-    'https://dashskin.vercel.app/',
-    'https://www.dashskin.vercel.app/',
-    'dashskin.vercel.app',
-  ];
   app.enableCors({
-    origin: function (origin, callback) {
-      if (whitelist.indexOf(origin) !== -1) {
-        console.log('allowed cors for:', origin);
-        callback(null, true);
-      } else {
-        console.log('blocked cors for:', origin);
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
-    methods: 'GET,PUT,POST,DELETE,UPDATE,OPTIONS',
+    origin: '*',
     credentials: true,
   });
 
