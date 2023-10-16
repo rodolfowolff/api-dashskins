@@ -1,36 +1,35 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { Logger, ValidationPipe } from '@nestjs/common';
+import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { NestExpressApplication } from '@nestjs/platform-express';
 
 async function bootstrap() {
   // const app = await NestFactory.create(AppModule);
-  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const app = await NestFactory.create(AppModule);
   const envConfig = app.get(ConfigService);
 
-  const whitelist = [
-    'https://dashskin.vercel.app',
-    'https://www.dashskin.vercel.app',
-    'https://dashskin.vercel.app/',
-    'https://www.dashskin.vercel.app/',
-    'dashskin.vercel.app',
-  ];
-  app.enableCors({
-    origin: function (origin, callback) {
-      if (whitelist.indexOf(origin) !== -1) {
-        console.log('allowed cors for:', origin);
-        callback(null, true);
-      } else {
-        console.log('blocked cors for:', origin);
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
-    allowedHeaders:
-      'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Observe',
-    methods: 'GET,PUT,POST,DELETE,UPDATE,OPTIONS',
-    credentials: true,
-  });
+  // const whitelist = [
+  //   'https://dashskin.vercel.app',
+  //   'https://www.dashskin.vercel.app',
+  //   'https://dashskin.vercel.app/',
+  //   'https://www.dashskin.vercel.app/',
+  //   'dashskin.vercel.app',
+  // ];
+  // app.enableCors({
+  //   origin: function (origin, callback) {
+  //     if (whitelist.indexOf(origin) !== -1) {
+  //       console.log('allowed cors for:', origin);
+  //       callback(null, true);
+  //     } else {
+  //       console.log('blocked cors for:', origin);
+  //       callback(new Error('Not allowed by CORS'));
+  //     }
+  //   },
+  //   allowedHeaders:
+  //     'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Observe',
+  //   methods: 'GET,PUT,POST,DELETE,UPDATE,OPTIONS',
+  //   credentials: true,
+  // });
 
   // app.enableCors({
   //   allowedHeaders: '*',
