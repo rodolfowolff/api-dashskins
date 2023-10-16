@@ -8,11 +8,10 @@ Content-Type: application/json
 # @name CreateUser
 POST {{baseUrl}}/users
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTJhMzBhYzYwNzI1MzQ3NTcyOGVlMDkiLCJpYXQiOjE2OTcyNjgwMTMsImV4cCI6MTY5NzM1NDQxM30.oOoBwpIGWrjWptBAjXVQqMACbJQ7kWMjMFXIJSTlgmw
 
 {
-  "username": "xxx da",
-  "email": "hrxhr@me.com",
+  "username": "admin",
+  "email": "admin@admin.com",
   "age": 18,
   "avatar": "https://i.pravatar.cc/150?img=50"
 }

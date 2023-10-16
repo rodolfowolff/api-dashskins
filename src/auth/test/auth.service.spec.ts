@@ -4,6 +4,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { UsersModule } from '@/users/users.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { seconds, ThrottlerModule } from '@nestjs/throttler';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -12,10 +13,14 @@ describe('AuthService', () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
         UsersModule,
-        JwtModule.register({
-          global: true,
-          secret: 'secretTest', // TODO: Pegar do .env, somente para testes
-          signOptions: { expiresIn: '1d' },
+        ConfigModule,
+        JwtModule.registerAsync({
+          imports: [ConfigModule],
+          useFactory: async (configService: ConfigService) => ({
+            privateKey: configService.get<string>('jwt.secret'),
+            signOptions: { expiresIn: '1d' },
+          }),
+          inject: [ConfigService],
         }),
         MongooseModule.forRoot('mongodb://0.0.0.0:27017/dashskins'),
         ThrottlerModule.forRoot([

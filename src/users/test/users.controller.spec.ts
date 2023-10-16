@@ -5,6 +5,7 @@ import { UsersService } from '../users.service';
 import { usersArray } from './mock-user';
 import { JwtModule } from '@nestjs/jwt';
 import { seconds, ThrottlerModule } from '@nestjs/throttler';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 describe('Users Controller', () => {
   let controller: UsersController;
@@ -12,10 +13,14 @@ describe('Users Controller', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
-        JwtModule.register({
-          global: true,
-          secret: 'secretTest', // TODO: Pegar do .env, somente para testes
-          signOptions: { expiresIn: '1d' },
+        ConfigModule,
+        JwtModule.registerAsync({
+          imports: [ConfigModule],
+          useFactory: async (configService: ConfigService) => ({
+            privateKey: configService.get<string>('jwt.secret'),
+            signOptions: { expiresIn: '1d' },
+          }),
+          inject: [ConfigService],
         }),
         ThrottlerModule.forRoot([
           {

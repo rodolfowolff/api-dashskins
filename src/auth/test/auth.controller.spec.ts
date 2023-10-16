@@ -7,6 +7,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { seconds, ThrottlerModule } from '@nestjs/throttler';
 import { AuthDto } from '../dto/auth.dto';
 import * as jwt from 'jsonwebtoken';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 describe('AuthController', () => {
   let authController: AuthController;
@@ -15,10 +16,14 @@ describe('AuthController', () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
         UsersModule,
-        JwtModule.register({
-          global: true,
-          secret: 'secretTest', // TODO: Pegar do .env, somente para testes
-          signOptions: { expiresIn: '1d' },
+        ConfigModule,
+        JwtModule.registerAsync({
+          imports: [ConfigModule],
+          useFactory: async (configService: ConfigService) => ({
+            privateKey: configService.get<string>('jwt.secret'),
+            signOptions: { expiresIn: '1d' },
+          }),
+          inject: [ConfigService],
         }),
         MongooseModule.forRoot('mongodb://0.0.0.0:27017/dashskins'),
         ThrottlerModule.forRoot([
@@ -58,7 +63,7 @@ describe('AuthController', () => {
       };
 
       const result = await authController.signIn(authDto as AuthDto);
-
+      console.log('result', result);
       expect(result).toEqual(expect.any(String));
 
       let decodedToken;

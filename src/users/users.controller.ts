@@ -16,9 +16,9 @@ import { AuthGuard } from '@/auth/guard/auth.guard';
 import { seconds, Throttle, ThrottlerGuard } from '@nestjs/throttler';
 
 @Controller('users')
-@UseGuards(AuthGuard, ThrottlerGuard)
+@UseGuards(ThrottlerGuard)
 export class UsersController {
-  constructor(private readonly usersService: UsersService) { }
+  constructor(private readonly usersService: UsersService) {}
 
   @Post()
   @Throttle({ short: { limit: 3, ttl: seconds(1) } })
@@ -33,12 +33,14 @@ export class UsersController {
   }
 
   @Put(':id')
+  @UseGuards(AuthGuard)
   @Throttle({ short: { limit: 3, ttl: seconds(1) } })
   update(@Param() param: MongoIDParamDTO, @Body() body: EditUserDto) {
     return this.usersService.update(param.id, body);
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard)
   @Throttle({ short: { limit: 3, ttl: seconds(1) } })
   delete(@Param() param: MongoIDParamDTO) {
     return this.usersService.delete(param.id);

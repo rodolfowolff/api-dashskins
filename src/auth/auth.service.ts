@@ -8,10 +8,11 @@ export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
-  ) { }
+  ) {}
 
   async signIn(email: string, password: string) {
     const user = await this.usersService.findByEmail(email);
+
     // TODO: Somente para testes: Admin tem acesso
     if (!user || user.email.toLocaleLowerCase() !== 'admin@admin.com') {
       throw new UnauthorizedException();
