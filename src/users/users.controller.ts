@@ -12,7 +12,7 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { MongoIDParamDTO } from '../common';
 import { EditUserDto } from './dto/edit-user.dto';
-import { AuthGuard } from '@/auth/guard/auth.guard';
+import { AuthGuard } from '../auth/guard/auth.guard';
 import { seconds, Throttle, ThrottlerGuard } from '@nestjs/throttler';
 
 @Controller('users')
