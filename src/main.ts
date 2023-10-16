@@ -13,13 +13,13 @@ async function bootstrap() {
   // })
   app.useGlobalPipes(new ValidationPipe());
 
-  const globalPrefix = 'api';
-  app.setGlobalPrefix(globalPrefix);
+  // const globalPrefix = 'api';
+  // app.setGlobalPrefix(globalPrefix);
 
   const port = envConfig.get<number>('port');
 
   await app.listen(port);
 
-  Logger.log(`🚀 Api on: http://localhost:${port}/${globalPrefix}`);
+  Logger.log(`🚀 Api on: http://localhost:${port}/`);
 }
 bootstrap();
