@@ -40,16 +40,7 @@ async function bootstrap() {
 
   const envConfig = app.get(ConfigService);
 
-  // app.enableCors({
-  //   allowedHeaders: ['content-type'],
-  //   origin: 'https://dashskin.vercel.app',
-  //   credentials: true,
-  // });
-
   app.useGlobalPipes(new ValidationPipe());
-
-  // const globalPrefix = 'api';
-  // app.setGlobalPrefix(globalPrefix);
 
   const port = envConfig.get<number>('port');
 
