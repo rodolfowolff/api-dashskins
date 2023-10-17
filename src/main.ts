@@ -8,7 +8,8 @@ async function bootstrap() {
   const envConfig = app.get(ConfigService);
 
   app.enableCors({
-    origin: '*',
+    allowedHeaders: ['content-type'],
+    origin: 'https://dashskin.vercel.app',
     credentials: true,
   });
 
